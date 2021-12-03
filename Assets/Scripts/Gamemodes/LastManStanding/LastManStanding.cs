@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class LastManStanding : MonoBehaviour
@@ -23,6 +24,18 @@ public class LastManStanding : MonoBehaviour
     [SerializeField] TMP_Text[] scoreboardColorTexts;
     [SerializeField] TMP_Text[] scoreboardWinsTexts;
 
+    [Header("Menu")]
+    [SerializeField] Button nextLevelButton;
+    [SerializeField] Button replayButton;
+    [SerializeField] Button quitButton;
+
+    GameController gameController;
+
+    void Awake()
+    {
+        gameController = GameObject.Find("GameController").GetComponent<GameController>();
+    }
+
     void Start()
     {
         StartCoroutine(Game());
@@ -37,6 +50,8 @@ public class LastManStanding : MonoBehaviour
         yield return StartCoroutine(Gameplay());
 
         yield return StartCoroutine(EndGame());
+
+        yield return StartCoroutine(Menu());
     }
 
     IEnumerator StartGame()
@@ -95,6 +110,28 @@ public class LastManStanding : MonoBehaviour
         yield return new WaitForSeconds(3f);
     }
 
+    IEnumerator Menu()
+    {
+        scoreboardHeaderText.gameObject.SetActive(false);
+
+        for (int i = 0; i < tanks.Length; i++)
+        {
+            if (i > 0 && tanks[i].GetTankColorStr().Equals(tanks[i - 1].GetTankColorStr()))
+            {
+                continue;
+            }
+
+            scoreboardColorTexts[i].gameObject.SetActive(false);
+            scoreboardWinsTexts[i].gameObject.SetActive(false);
+        }
+
+        nextLevelButton.gameObject.SetActive(true);
+        replayButton.gameObject.SetActive(true);
+        quitButton.gameObject.SetActive(true);
+
+        yield return null;
+    }
+
     void EnableTankHealth()
     {
         for (int i = 0; i < tanks.Length; i++)
@@ -121,12 +158,7 @@ public class LastManStanding : MonoBehaviour
 
     void SpawnTanks()
     {
-        GameObject[] temp = GameObject.FindGameObjectsWithTag("Tank");
-
-        for (int i = 0; i < temp.Length; i++)
-        {
-            tanks[i] = temp[i].GetComponent<TankController>();
-        }
+        tanks = gameController.GetTanks().ToArray();
 
         for (int i = 0; i < tanks.Length; i++)
         {

@@ -4,5 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 155607be27db73444b61b071509cbb05
+  - enabled: 1
+    path: Assets/Scenes/Barracks.unity
+    guid: abd3d87204a0f764290c211c1a71cc54
+  - enabled: 1
+    path: Assets/Scenes/Forest.unity
+    guid: 6712bdc5690969c4481d071a59b8c310
+  - enabled: 1
+    path: Assets/Scenes/Refinery.unity
+    guid: 42e2bc11ed2e4404284b99a497e66bec
   m_configObjects: {}

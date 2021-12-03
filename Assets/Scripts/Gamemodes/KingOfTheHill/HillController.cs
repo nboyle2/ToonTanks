@@ -36,7 +36,7 @@ public class HillController : MonoBehaviour
 
             roundController.AddHillTime(tankColliders[0].gameObject.GetComponent<TankController>(), Time.deltaTime);
         }
-        else if (tankColliders.Count == 2 && 
+        else if (tankColliders.Count == 2 &&
                     tankColliders[0].gameObject.GetComponent<TankController>().GetTankColorStr().Equals(tankColliders[1].gameObject.GetComponent<TankController>().GetTankColorStr()))
         {
             GetComponent<Renderer>().material.color = tankColliders[0].gameObject.GetComponent<TankController>().GetTankColor();
@@ -58,7 +58,7 @@ public class HillController : MonoBehaviour
             fullHillRotations++;
         }
 
-        transform.position = hillLocations[++hillLocationsIndex].transform.position;
+        transform.position = hillLocations[hillLocationsIndex++].transform.position;
 
         moveHillTime = Time.time + hillDuration;
     }

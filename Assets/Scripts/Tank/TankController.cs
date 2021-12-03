@@ -81,6 +81,11 @@ public class TankController : MonoBehaviour
         totalHillTime += time;
     }
 
+    public void ResetTotalHillTime()
+    {
+        totalHillTime = 0f;
+    }
+
     public float GetTotalHillTime()
     {
         return totalHillTime;
