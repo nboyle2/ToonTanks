@@ -8782,6 +8782,7 @@ MonoBehaviour:
   - {fileID: 599705176}
   - {fileID: 1675813915}
   - {fileID: 717864772}
+  defaultTankColor: {fileID: 2100000, guid: 70f453831ef6bc84b9ed4af9521e2e9b, type: 2}
 --- !u!1 &1928501524
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,6 @@ public class KingOfTheHill : MonoBehaviour
     [Header("Hill")]
     [SerializeField] HillController hill;
     [SerializeField] int winningHillTime;
-    [SerializeField] int maxFullHillRotations;
 
     [Header("Countdown")]
     [SerializeField] int countdownLength;
@@ -26,7 +25,6 @@ public class KingOfTheHill : MonoBehaviour
     [Header("Winner")]
     [SerializeField] TMP_Text winnerText;
     [SerializeField] TMP_Text winsText;
-    [SerializeField] TMP_Text drawText;
 
     [Header("Scoreboard")]
     [SerializeField] TMP_Text scoreboardHeaderText;
@@ -99,7 +97,7 @@ public class KingOfTheHill : MonoBehaviour
 
         hill.gameObject.SetActive(true);
 
-        while (!Winner() && hill.GetFullHillRotations() <= maxFullHillRotations)
+        while (!Winner())
         {
             UpdateHillTimes();
 
@@ -140,11 +138,10 @@ public class KingOfTheHill : MonoBehaviour
 
         winnerText.gameObject.SetActive(false);
         winsText.gameObject.SetActive(false);
-        drawText.gameObject.SetActive(false);
 
         DisplayScoreboard();
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
     }
 
     IEnumerator Menu()
@@ -355,10 +352,6 @@ public class KingOfTheHill : MonoBehaviour
 
             winnerText.gameObject.SetActive(true);
             winsText.gameObject.SetActive(true);
-        }
-        else
-        {
-            drawText.gameObject.SetActive(true);
         }
     }
 

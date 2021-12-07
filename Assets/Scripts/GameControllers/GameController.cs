@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] GameObject[] tankSetupMenus;
 
+    [SerializeField] Material defaultTankColor;
+
     List<TankController> tanks;
 
     string[] levels;
@@ -20,6 +22,8 @@ public class GameController : MonoBehaviour
     int readyTanks;
 
     bool started;
+
+    bool enoughTeams;
 
     void Awake()
     {
@@ -98,6 +102,8 @@ public class GameController : MonoBehaviour
 
     void OnPlayerJoined(PlayerInput playerInput)
     {
+        playerInput.gameObject.GetComponent<TankController>().SetTankColor(defaultTankColor);
+
         switch (playerInput.playerIndex)
         {
             case 0:
@@ -138,8 +144,27 @@ public class GameController : MonoBehaviour
         readyTanks--;
     }
 
+    bool MoreThanOneTeam()
+    {
+        bool moreThanOneTeam = false;
+
+        if (tanks.Count > 1)
+        {
+            for (int i = tanks.Count - 1; i > 0; i--)
+            {
+                if (!tanks[i].GetTankColorStr().Equals(tanks[i - 1].GetTankColorStr()))
+                {
+                    moreThanOneTeam = true;
+                    break;
+                }
+            }
+        }
+
+        return moreThanOneTeam;
+    }
+
     public bool CanStart()
     {
-        return tanks.Count > 1 && readyTanks == tanks.Count;
+        return tanks.Count > 1 && MoreThanOneTeam() && readyTanks == tanks.Count;
     }
 }

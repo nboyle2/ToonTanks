@@ -107,7 +107,7 @@ public class LastManStanding : MonoBehaviour
 
         DisplayScoreboard();
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
     }
 
     IEnumerator Menu()
@@ -162,6 +162,8 @@ public class LastManStanding : MonoBehaviour
 
         for (int i = 0; i < tanks.Length; i++)
         {
+            tanks[i].GetComponent<TankHealth>().Respawn();
+
             tanks[i].transform.position = tankSpawns[i].transform.position;
             tanks[i].transform.rotation = tankSpawns[i].transform.rotation;
         }
@@ -180,7 +182,7 @@ public class LastManStanding : MonoBehaviour
 
             for (int j = i + 1; j < tanks.Length; j++)
             {
-                if (!tanks[i].transform.Find("TankRenderers").GetComponentInChildren<MeshRenderer>().enabled)
+                if (!tanks[j].transform.Find("TankRenderers").GetComponentInChildren<MeshRenderer>().enabled)
                 {
                     continue;
                 }

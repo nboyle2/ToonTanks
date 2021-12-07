@@ -11,8 +11,6 @@ public class ShellExplode : MonoBehaviour
     [Header("Explosion")]
     [SerializeField] ParticleSystem explosionParticles;
     [SerializeField] AudioSource explosionAudio;
-    [SerializeField] GameObject craterPrefab;
-    GameObject crater;
 
     void Start()
     {
@@ -25,11 +23,6 @@ public class ShellExplode : MonoBehaviour
         {
             TankHealth tankHealth = other.GetComponent<TankHealth>();
             tankHealth.TakeDamage(damage);
-        }
-        else if (other.gameObject.tag == "Ground")
-        {
-            crater = Instantiate(craterPrefab);
-            crater.transform.position = new Vector3(transform.position.x, 0.0001f, transform.position.z);
         }
 
         explosionParticles.transform.parent = null;
