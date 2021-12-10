@@ -12,9 +12,7 @@ public class RoundController : MonoBehaviour
     {
         GameController gameController = GameObject.Find("GameController").GetComponent<GameController>();
 
-        string gamemode = gameController.GetGamemode();
-
-        switch (gamemode)
+        switch (gameController.GetGamemode())
         {
             case "KingOfTheHill":
                 kingOfTheHill.enabled = true;

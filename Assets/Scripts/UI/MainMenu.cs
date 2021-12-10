@@ -8,19 +8,15 @@ using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] GameObject main;
-
     [SerializeField] GameObject gamemodes;
 
     [SerializeField] GameObject tankSetup;
 
     [SerializeField] GameController gameController;
 
-    public void PlayButton()
+    public void QuitButton()
     {
-        main.SetActive(false);
-
-        gamemodes.SetActive(true);
+        Application.Quit();
     }
 
     public void KingOfTheHillButton()

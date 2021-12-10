@@ -6,6 +6,9 @@ using TMPro;
 
 public class KingOfTheHill : MonoBehaviour
 {
+    [Header("Loading Screen")]
+    [SerializeField] GameObject loadingScreen;
+
     [Header("Spawns")]
     [SerializeField] GameObject[] tankSpawns;
     [SerializeField] TMP_Text[] respawnCountdownTexts;
@@ -31,10 +34,8 @@ public class KingOfTheHill : MonoBehaviour
     [SerializeField] TMP_Text[] scoreboardColorTexts;
     [SerializeField] TMP_Text[] scoreboardWinsTexts;
 
-    [Header("Menu")]
-    [SerializeField] Button nextLevelButton;
-    [SerializeField] Button replayButton;
-    [SerializeField] Button quitButton;
+    [Header("End of Level Menu")]
+    [SerializeField] GameObject endOfLevelMenu;
 
     TankController[] tanks;
     List<TankController> respawningTanks;
@@ -56,7 +57,7 @@ public class KingOfTheHill : MonoBehaviour
 
     IEnumerator Game()
     {
-        // Display "Loading" screen
+        yield return StartCoroutine(LoadingScreen());
 
         yield return StartCoroutine(StartGame());
 
@@ -67,13 +68,34 @@ public class KingOfTheHill : MonoBehaviour
         yield return StartCoroutine(Menu());
     }
 
+    IEnumerator LoadingScreen()
+    {
+        switch (gameController.GetGamemode())
+        {
+            case "KingOfTheHill":
+                loadingScreen.transform.Find("KingOfTheHill").gameObject.SetActive(true);
+                break;
+            case "LastManStanding":
+                loadingScreen.transform.Find("LastManStanding").gameObject.SetActive(true);
+                break;
+        }
+
+        yield return new WaitForSeconds(5f);
+
+        loadingScreen.gameObject.SetActive(false);
+    }
+
     IEnumerator StartGame()
     {
         SpawnTanks();
 
         EnableTankHealth();
 
+        EnableTankAudio();
+
         DisplayHillTimes();
+
+        countdownText.gameObject.SetActive(true);
 
         while (countdownLength > 0)
         {
@@ -123,6 +145,8 @@ public class KingOfTheHill : MonoBehaviour
     {
         DisableTankControls();
 
+        DisableTankAudio();
+
         hill.gameObject.SetActive(false);
 
         winner = GetWinner();
@@ -159,9 +183,7 @@ public class KingOfTheHill : MonoBehaviour
             scoreboardWinsTexts[i].gameObject.SetActive(false);
         }
 
-        nextLevelButton.gameObject.SetActive(true);
-        replayButton.gameObject.SetActive(true);
-        quitButton.gameObject.SetActive(true);
+        endOfLevelMenu.gameObject.SetActive(true);
 
         yield return null;
     }
@@ -171,6 +193,14 @@ public class KingOfTheHill : MonoBehaviour
         for (int i = 0; i < tanks.Length; i++)
         {
             tanks[i].EnableHealth();
+        }
+    }
+
+    void EnableTankAudio()
+    {
+        for (int i = 0; i < tanks.Length; i++)
+        {
+            tanks[i].EnableAudio();
         }
     }
 
@@ -190,6 +220,14 @@ public class KingOfTheHill : MonoBehaviour
         }
     }
 
+    void DisableTankAudio()
+    {
+        for (int i = 0; i < tanks.Length; i++)
+        {
+            tanks[i].DisableAudio();
+        }
+    }
+
     void SpawnTanks()
     {
         tanks = gameController.GetTanks().ToArray();
@@ -200,6 +238,7 @@ public class KingOfTheHill : MonoBehaviour
 
             tanks[i].transform.position = tankSpawns[i].transform.position;
             tanks[i].transform.rotation = tankSpawns[i].transform.rotation;
+            tanks[i].transform.Find("TankRenderers").Find("TankTurret").transform.rotation = tanks[i].transform.rotation;
         }
     }
 
@@ -234,6 +273,7 @@ public class KingOfTheHill : MonoBehaviour
 
         tank.transform.position = safestSpawn.transform.position;
         tank.transform.rotation = safestSpawn.transform.rotation;
+        tank.transform.Find("TankRenderers").Find("TankTurret").transform.rotation = tank.transform.rotation;
 
         if (tank.GetTankColorStr().Equals("Yellow"))
         {

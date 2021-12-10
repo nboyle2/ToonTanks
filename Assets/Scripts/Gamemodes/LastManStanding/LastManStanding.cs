@@ -6,8 +6,11 @@ using TMPro;
 
 public class LastManStanding : MonoBehaviour
 {
+    [Header("Loading Screen")]
+    [SerializeField] GameObject loadingScreen;
+
+    [Header("Spawns")]
     [SerializeField] GameObject[] tankSpawns;
-    TankController[] tanks;
 
     [Header("Countdown")]
     [SerializeField] int countdownLength;
@@ -24,10 +27,10 @@ public class LastManStanding : MonoBehaviour
     [SerializeField] TMP_Text[] scoreboardColorTexts;
     [SerializeField] TMP_Text[] scoreboardWinsTexts;
 
-    [Header("Menu")]
-    [SerializeField] Button nextLevelButton;
-    [SerializeField] Button replayButton;
-    [SerializeField] Button quitButton;
+    [Header("End of Level Menu")]
+    [SerializeField] GameObject endOfLevelMenu;
+
+    TankController[] tanks;
 
     GameController gameController;
 
@@ -43,7 +46,7 @@ public class LastManStanding : MonoBehaviour
 
     IEnumerator Game()
     {
-        // Display "Loading" screen
+        yield return StartCoroutine(LoadingScreen());
 
         yield return StartCoroutine(StartGame());
 
@@ -54,11 +57,32 @@ public class LastManStanding : MonoBehaviour
         yield return StartCoroutine(Menu());
     }
 
+    IEnumerator LoadingScreen()
+    {
+        switch (gameController.GetGamemode())
+        {
+            case "KingOfTheHill":
+                loadingScreen.transform.Find("KingOfTheHill").gameObject.SetActive(true);
+                break;
+            case "LastManStanding":
+                loadingScreen.transform.Find("LastManStanding").gameObject.SetActive(true);
+                break;
+        }
+
+        yield return new WaitForSeconds(5f);
+
+        loadingScreen.gameObject.SetActive(false);
+    }
+
     IEnumerator StartGame()
     {
         SpawnTanks();
 
         EnableTankHealth();
+
+        EnableTankAudio();
+
+        countdownText.gameObject.SetActive(true);
 
         while (countdownLength > 0)
         {
@@ -89,6 +113,8 @@ public class LastManStanding : MonoBehaviour
     IEnumerator EndGame()
     {
         DisableTankControls();
+
+        DisableTankAudio();
 
         winner = GetWinner();
 
@@ -125,9 +151,7 @@ public class LastManStanding : MonoBehaviour
             scoreboardWinsTexts[i].gameObject.SetActive(false);
         }
 
-        nextLevelButton.gameObject.SetActive(true);
-        replayButton.gameObject.SetActive(true);
-        quitButton.gameObject.SetActive(true);
+        endOfLevelMenu.gameObject.SetActive(true);
 
         yield return null;
     }
@@ -137,6 +161,14 @@ public class LastManStanding : MonoBehaviour
         for (int i = 0; i < tanks.Length; i++)
         {
             tanks[i].EnableHealth();
+        }
+    }
+
+    void EnableTankAudio()
+    {
+        for (int i = 0; i < tanks.Length; i++)
+        {
+            tanks[i].EnableAudio();
         }
     }
 
@@ -156,6 +188,14 @@ public class LastManStanding : MonoBehaviour
         }
     }
 
+    void DisableTankAudio()
+    {
+        for (int i = 0; i < tanks.Length; i++)
+        {
+            tanks[i].DisableAudio();
+        }
+    }
+
     void SpawnTanks()
     {
         tanks = gameController.GetTanks().ToArray();
@@ -166,6 +206,7 @@ public class LastManStanding : MonoBehaviour
 
             tanks[i].transform.position = tankSpawns[i].transform.position;
             tanks[i].transform.rotation = tankSpawns[i].transform.rotation;
+            tanks[i].transform.Find("TankRenderers").Find("TankTurret").transform.rotation = tanks[i].transform.rotation;
         }
     }
 

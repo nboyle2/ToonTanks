@@ -406,9 +406,9 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4626348183129313737}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -4092590478831152735, guid: d31873f9b53f3f34eb7a930fa3bc0625, type: 2}
   m_audioClip: {fileID: 8300000, guid: 4932ab25b84dd7649b80af68a9660ddc, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -504,8 +504,8 @@ AudioSource:
   m_GameObject: {fileID: 4626348183129313737}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 672a9941361ad494a99fba36759eca80, type: 3}
+  OutputAudioMixerGroup: {fileID: 5530179236997479975, guid: d31873f9b53f3f34eb7a930fa3bc0625, type: 2}
+  m_audioClip: {fileID: 8300000, guid: d3247579c549643a5b3a95f9224eaf3c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -691,7 +691,6 @@ MonoBehaviour:
   slider: {fileID: 4626348183152664821}
   fillImage: {fileID: 4626348183110969042}
   explosionPrefab: {fileID: 151086, guid: e7053b588c589e441bf91dd2714b76f4, type: 3}
-  deadTankPrefab: {fileID: 2475662974349825494, guid: d317f80d25c75ec4db47de0e3a44f350, type: 3}
 --- !u!114 &4626348183129413164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -707,6 +706,7 @@ MonoBehaviour:
   tankMovement: {fileID: 4626348183129413330}
   tankShoot: {fileID: 4626348183129413331}
   tankHealth: {fileID: 4626348183129413165}
+  engineAudio: {fileID: 4626348183129413328}
 --- !u!1 &4626348183129313739
 GameObject:
   m_ObjectHideFlags: 0

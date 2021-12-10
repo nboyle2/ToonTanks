@@ -7,6 +7,7 @@ public class TankController : MonoBehaviour
     [SerializeField] TankMovement tankMovement;
     [SerializeField] TankShoot tankShoot;
     [SerializeField] TankHealth tankHealth;
+    [SerializeField] AudioSource engineAudio;
 
     Color tankColor;
     string tankColorStr;
@@ -37,6 +38,16 @@ public class TankController : MonoBehaviour
         tankHealth.enabled = true;
 
         transform.Find("Canvas").gameObject.SetActive(true);
+    }
+
+    public void EnableAudio()
+    {
+        engineAudio.enabled = true;
+    }
+
+    public void DisableAudio()
+    {
+        engineAudio.enabled = false;
     }
 
     public void SetTankColor(Material color)

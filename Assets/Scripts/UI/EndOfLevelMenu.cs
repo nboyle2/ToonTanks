@@ -26,12 +26,14 @@ public class EndOfLevelMenu : MonoBehaviour
     {
         List<TankController> tanks = gameController.GetTanks();
 
+        Destroy(gameController.gameObject);
+
         for (int i = 0; i < tanks.Count; i++)
         {
             Destroy(tanks[i].gameObject);
         }
 
-        Destroy(gameController.gameObject);
+        Destroy(GameObject.Find("Music"));
 
         SceneManager.LoadScene("MainMenu");
     }

@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] GameObject[] tankSetupMenus;
 
-    [SerializeField] Material defaultTankColor;
+    [SerializeField] Material[] defaultTankColors;
 
     List<TankController> tanks;
 
@@ -102,7 +102,7 @@ public class GameController : MonoBehaviour
 
     void OnPlayerJoined(PlayerInput playerInput)
     {
-        playerInput.gameObject.GetComponent<TankController>().SetTankColor(defaultTankColor);
+        playerInput.gameObject.GetComponent<TankController>().SetTankColor(defaultTankColors[playerInput.playerIndex]);
 
         switch (playerInput.playerIndex)
         {
